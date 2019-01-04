@@ -1,0 +1,98 @@
+@charset "utf-8";
+
+// Google Font
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,700|Open+Sans:400,700");
+
+// Brand colors
+$purple: #973acd;
+$beige-lighter: #eff0eb;
+$background-color: #e6e147;
+
+// Update Bulma's global variables
+$family-sans-serif: "Nunito", sans-serif;
+$family-secondary: "Open Sans", sans-serif;
+$primary: $purple;
+$title-color: #000;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+@import "bulma/bulma.sass";
+
+.is-background {
+  background-color: $background-color;
+}
+
+.chat-bubble {
+  position: relative;
+  background-color: $white;
+  padding: 3rem;
+  border-radius: 2rem;
+  width: auto;
+  margin-left: 16rem;
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    width: 0;
+    height: 0;
+    border: 30px solid transparent;
+    border-top-color: $white;
+    border-bottom: 0;
+    border-left: 0;
+    margin-left: -10px;
+    margin-bottom: -30px;
+  }
+}
+
+.character {
+  margin-right: 16rem;
+
+  .character-component {
+    animation-name: character-bounce;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease;
+  }
+
+  .character-shadow {
+    background-color: $grey-light;
+    height: 1.5rem;
+    width: 100%;
+    border-radius: 50%;
+    margin: 0 auto;
+    animation-name: shadow-bounce;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease;
+  }
+}
+
+// Animations
+@keyframes character-bounce {
+  0% {
+    transform: translateY(-0.5rem);
+  }
+  50% {
+    transform: translateY(0.5rem);
+  }
+  100% {
+    transform: translateY(-0.5rem);
+  }
+}
+
+@keyframes shadow-bounce {
+  0% {
+    width: 90%;
+    filter: blur(5px);
+  }
+  50% {
+    width: 100%;
+    filter: blur(3px);
+  }
+  100% {
+    width: 90%;
+    filter: blur(5px);
+  }
+}
