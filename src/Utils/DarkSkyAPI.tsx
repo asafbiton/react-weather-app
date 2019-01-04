@@ -1,9 +1,9 @@
 import axios, { AxiosPromise, AxiosResponse } from "axios";
 
-const DARKSKY_SECRET_KEY = "6ff700c554180865d51e3b435b9a150a";
+const DARKSKY_SECRET_KEY = process.env.DARKSKY_SECRET_KEY;
 const DARKSKY_BASE_URL = `https://api.darksky.net/forecast/${DARKSKY_SECRET_KEY}`;
 
-const GOOGLE_GEOCODE_API_KEY = "AIzaSyCpcb0e6bgdZeOdaLKRp5MlD5KrGf14KnE";
+const GOOGLE_GEOCODE_API_KEY = process.env.GOOGLE_GEOCODE_API;
 const GOOGLE_GEOCODE_API_BASE_URL = `https://maps.googleapis.com/maps/api/geocode/json?key=${GOOGLE_GEOCODE_API_KEY}`;
 
 /**
