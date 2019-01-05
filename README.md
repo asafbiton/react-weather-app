@@ -1,7 +1,7 @@
 ## About
 
-This weather app is written using React and React-Redux.
-Data is pulled from OpenWeatherMap (for current weather) and Google Maps (for cities auto-completion).
+This weather app is written using React and React-Redux.<br>
+Data is pulled from OpenWeatherMap (for current weather) and Google Maps (for cities auto-completion).<br>
 [Demo](https://weather-app-demo.asafbiton.com)
 
 ## Requirements
