@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.scss";
 import StartPage from "./components/StartPage";
 import ForecastPage from "./components/ForecastPage";
+import NoMatchPage from "./components/NoMatchPage";
 
 class App extends Component {
   render() {
@@ -20,6 +21,7 @@ class App extends Component {
                   path="/forecast/:location"
                   component={ForecastPage}
                 />
+                <Route component={NoMatchPage} />
               </Switch>
             </div>
           </div>
