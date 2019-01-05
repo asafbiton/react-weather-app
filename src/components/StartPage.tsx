@@ -2,54 +2,69 @@ import React, { Component, Props } from "react";
 import { Ghost } from "react-kawaii";
 import Bubble from "./Bubble";
 import WeatherAPIWrapper from "../Utils/WeatherAPIWrapper";
+import { Redirect, RouteComponentProps } from "react-router-dom";
 
-export default class StartPage extends Component {
+interface StartPageState {
+  value: string;
+  redirect: boolean;
+}
+
+export default class StartPage extends Component<
+  RouteComponentProps<any>,
+  StartPageState
+> {
   api = new WeatherAPIWrapper();
+  autocomplete = null;
 
-  constructor(props: Props<any>) {
+  constructor(props: RouteComponentProps<any>) {
     super(props);
 
     this.state = {
-      value: ""
+      value: "",
+      redirect: false
     };
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handlePlaceSelected = this.handlePlaceSelected.bind(this);
   }
 
-  async handleChange(event: React.FormEvent<HTMLInputElement>) {
-    const query = event.currentTarget.value;
-
-    this.setState({ value: query });
-    if (query.length > 0) {
-      //const response = await this.api.getAutocomplete(query);
-      //console.log(response);
-    }
-
-    var input = document.getElementById("locationInput");
-    var options = {
-      types: ["cities"]
-    };
+  componentDidMount() {
     // @ts-ignore
-    let autocomplete = new window.google.maps.places.Autocomplete(
-      input,
-      options
+    this.autocomplete = new window.google.maps.places.Autocomplete(
+      document.getElementById("locationInput"),
+      {
+        types: ["(cities)"]
+      }
     );
+
+    // @ts-ignore
+    this.autocomplete.addListener("place_changed", this.handlePlaceSelected);
+  }
+
+  handlePlaceSelected() {
+    if (this.autocomplete != null) {
+      // @ts-ignore
+      const selectedPlace = this.autocomplete.getPlace();
+      this.setState((state, props) => {
+        return { value: selectedPlace.formatted_address, redirect: true };
+      });
+    }
+  }
+
+  renderRedirect() {
+    if (this.state.redirect) {
+      return <Redirect to={`/forecast/${this.state.value}`} />;
+    }
   }
 
   render() {
     return (
       <>
+        {this.renderRedirect()}
         <Bubble>
           <h1 className="title">Hello!</h1>
-          <h3 className="subtitle">Welcome to my weather app!</h3>
           <p>Tell me where you are located so I can do my magic:</p>
           <p className="control has-icons-left">
-            <input
-              id="locationInput"
-              className="input"
-              type="text"
-              onChange={this.handleChange}
-            />
+            <input id="locationInput" className="input" type="text" />
             <span className="icon is-small is-left">
               <i className="fas fa-map-marker-alt" />
             </span>

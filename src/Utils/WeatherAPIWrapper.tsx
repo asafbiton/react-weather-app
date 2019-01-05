@@ -6,8 +6,6 @@ const OWM_BASE_URL = `https://api.openweathermap.org/data/2.5/weather?APPID=${OW
 const GOOGLE_GEOCODE_API = process.env.REACT_APP_GOOGLE_GEOCODE_API;
 const GOOGLE_GEOCODE_API_BASE_URL = `https://maps.googleapis.com/maps/api/geocode/json?key=${GOOGLE_GEOCODE_API}`;
 
-const GOOGLE_PLACES_AUTOCOMPLETE = `https://maps.googleapis.com/maps/api/place/autocomplete/json?types=(cities)&language=en_US&key=${GOOGLE_GEOCODE_API}`;
-
 /**
  * A class that handles all API calls to get current weather data
  * @class DarkSkyAPIWrapper
@@ -30,18 +28,7 @@ export default class WeatherAPIWrapper {
    * Get weather data for country using Open Weather App API
    * @param {string} location - A string representing a location (e.g "London, UK")
    */
-  getForecast = async (location: string) => {
-    let lat, lng;
-
-    const geocodeResponse = await this.geocodeLocation(location);
-    ({ lat, lng } = geocodeResponse);
-
-    return await axios.get(
-      OWM_BASE_URL + `&lat=${lat}&lon=${lng}&units=metric`
-    );
-  };
-
-  getAutocomplete = async (query: string) => {
-    return await axios.get(GOOGLE_PLACES_AUTOCOMPLETE + `&input=${query}`);
+  getForecast = async (location: string, unit: string = "metric") => {
+    return await axios.get(OWM_BASE_URL + `&q=${location}&units=${unit}`);
   };
 }

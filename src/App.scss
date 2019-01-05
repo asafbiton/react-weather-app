@@ -4,19 +4,30 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,700|Open+Sans:400,700");
 
 // Brand colors
-$purple: #973acd;
+$blue: #60bbea;
 $beige-lighter: #eff0eb;
 $background-color: #e6e147;
 
 // Update Bulma's global variables
 $family-sans-serif: "Nunito", sans-serif;
 $family-secondary: "Open Sans", sans-serif;
-$primary: $purple;
+$primary: $blue;
 $title-color: #000;
 $widescreen-enabled: false;
 $fullhd-enabled: false;
+$navbar-background-color: $background-color;
+// active navbar styles
+$navbar-item-active-color: #fff;
+$navbar-item-active-background-color: $blue;
+// hover navbar styles
+$navbar-item-hover-color: #fff;
+$navbar-item-hover-background-color: $blue;
 
 @import "bulma/bulma.sass";
+
+.hero.is-fullheight-with-navbar {
+  min-height: calc(100vh - 3.25rem - 2rem);
+}
 
 .is-background {
   background-color: $background-color;
@@ -27,27 +38,28 @@ $fullhd-enabled: false;
   background-color: $white;
   padding: 3rem;
   border-radius: 2rem;
-  width: auto;
+  width: 20rem;
   margin-left: 16rem;
 
   &:after {
     content: "";
     position: absolute;
-    bottom: 0;
-    left: 15%;
+    bottom: 15%;
+    left: 0%;
     width: 0;
     height: 0;
-    border: 30px solid transparent;
+    border: 60px solid transparent;
     border-top-color: $white;
     border-bottom: 0;
     border-left: 0;
-    margin-left: -10px;
-    margin-bottom: -30px;
+    margin-left: 0px;
+    margin-bottom: -60px;
   }
 }
 
 .character {
   margin-right: 16rem;
+  margin-top: -5rem;
 
   .character-component {
     animation-name: character-bounce;
@@ -66,6 +78,41 @@ $fullhd-enabled: false;
     animation-duration: 1s;
     animation-iteration-count: infinite;
     animation-timing-function: ease;
+  }
+}
+
+.navbar-menu {
+  .navbar-start,
+  .navbar-end {
+    background-color: $navbar-background-color;
+  }
+
+  &.is-overlay {
+    margin-top: $navbar-height;
+  }
+
+  .navbar-item {
+    margin-right: 0.5rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: $desktop) {
+  .chat-bubble {
+    width: 80%;
+    margin-left: 0;
+
+    &:after {
+      left: 50%;
+    }
+  }
+
+  .character {
+    margin: 0;
+    margin-top: 3rem;
   }
 }
 

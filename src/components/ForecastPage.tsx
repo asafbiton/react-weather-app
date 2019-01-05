@@ -4,13 +4,16 @@ import WeatherAPIWrapper from "../Utils/WeatherAPIWrapper";
 import Bubble from "./Bubble";
 import { Ghost } from "react-kawaii";
 import { ForecastState } from "../Interfaces/APIResonseInterfaces";
+import WeatherIcon from "react-icons-weather";
+import { connect } from "react-redux";
 
-export default class ForecastPage extends Component<
-  RouteComponentProps<any>,
-  ForecastState
-> {
+class ForecastPage extends Component<RouteComponentProps<any>, ForecastState> {
+  api: WeatherAPIWrapper;
+
   constructor(props: RouteComponentProps<any>) {
     super(props);
+
+    this.api = new WeatherAPIWrapper();
 
     this.state = {
       location: this.props.match.params.location,
@@ -20,15 +23,34 @@ export default class ForecastPage extends Component<
       },
       dataReceived: false
     };
+
+    this.refreshWeather = this.refreshWeather.bind(this);
   }
 
-  async componentDidMount() {
-    const api = new WeatherAPIWrapper();
-    const response = await api.getForecast(this.state.location);
+  componentDidMount() {
+    this.refreshWeather();
+  }
+
+  componentDidUpdate(prevProps: RouteComponentProps<any>) {
+    if (
+      // @ts-ignore
+      this.props.unit != prevProps.unit ||
+      this.props.location != prevProps.location
+    ) {
+      this.refreshWeather();
+    }
+  }
+
+  async refreshWeather() {
+    const response = await this.api.getForecast(
+      this.state.location,
+      // @ts-ignore
+      this.props.unit
+    );
 
     console.log(response);
 
-    this.setState((state, props) => {
+    this.setState(state => {
       return {
         location: state.location,
         weatherData: response.data,
@@ -41,14 +63,21 @@ export default class ForecastPage extends Component<
     return (
       <>
         <Bubble>
-          <h1 className="title">Hello!</h1>
           {this.state.dataReceived ? (
-            <p>
-              It seems that the weather in {this.state.location} is going to be{" "}
-              {this.state.weatherData.weather[0].description} with a high of{" "}
-              {this.state.weatherData.main.temp_max} and a low of{" "}
-              {this.state.weatherData.main.temp_min}.
-            </p>
+            <>
+              <WeatherIcon
+                name="owm"
+                iconId={`${this.state.weatherData.weather[0].id}`}
+                flip="horizontal"
+                rotate="90"
+              />
+              <p>
+                It seems that the weather in {this.state.location} is going to
+                be {this.state.weatherData.weather[0].description} with a high
+                of {this.state.weatherData.main.temp_max} and a low of{" "}
+                {this.state.weatherData.main.temp_min}.
+              </p>
+            </>
           ) : (
             <p>Loading...</p>
           )}
@@ -63,3 +92,10 @@ export default class ForecastPage extends Component<
     );
   }
 }
+
+const mapStateToProps = (state: any) => {
+  const unit = state.unit;
+  return { unit };
+};
+
+export default connect(mapStateToProps)(ForecastPage);
