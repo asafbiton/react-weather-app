@@ -21,7 +21,7 @@ class App extends Component {
                   path="/forecast/:location"
                   component={ForecastPage}
                 />
-                <Route component={NoMatchPage} />
+                <Route component={NoMatchPage} status={404} />
               </Switch>
             </div>
           </div>
