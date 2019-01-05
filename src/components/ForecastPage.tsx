@@ -6,6 +6,7 @@ import { Ghost } from "react-kawaii";
 import { ForecastState } from "../Interfaces/APIResonseInterfaces";
 import WeatherIcon from "react-icons-weather";
 import { connect } from "react-redux";
+import { AxiosResponse } from "axios";
 
 class ForecastPage extends Component<RouteComponentProps<any>, ForecastState> {
   api: WeatherAPIWrapper;
@@ -21,7 +22,8 @@ class ForecastPage extends Component<RouteComponentProps<any>, ForecastState> {
         main: {},
         weather: []
       },
-      dataReceived: false
+      dataReceived: false,
+      hasError: false
     };
 
     this.refreshWeather = this.refreshWeather.bind(this);
@@ -42,49 +44,65 @@ class ForecastPage extends Component<RouteComponentProps<any>, ForecastState> {
   }
 
   async refreshWeather() {
-    const response = await this.api.getForecast(
-      this.state.location,
-      // @ts-ignore
-      this.props.unit
-    );
+    let response: AxiosResponse<any>;
 
-    console.log(response);
+    try {
+      response = await this.api.getForecast(
+        this.state.location,
+        // @ts-ignore
+        this.props.unit
+      );
 
-    this.setState(state => {
-      return {
-        location: state.location,
-        weatherData: response.data,
-        dataReceived: true
-      };
-    });
+      this.setState(state => {
+        return {
+          location: state.location,
+          weatherData: response.data,
+          dataReceived: true
+        };
+      });
+    } catch (e) {
+      this.setState({ hasError: true });
+    }
+  }
+
+  renderMessage() {
+    if (this.state.hasError) {
+      return <p>Uh-oh! Something went wrong...</p>;
+    }
+
+    if (this.state.dataReceived) {
+      return (
+        <>
+          <WeatherIcon
+            name="owm"
+            iconId={`${this.state.weatherData.weather[0].id}`}
+            flip="horizontal"
+            rotate="90"
+          />
+          <p>
+            It seems that the weather in {this.state.location} is going to be{" "}
+            {this.state.weatherData.weather[0].description} with a high of{" "}
+            {this.state.weatherData.main.temp_max} and a low of{" "}
+            {this.state.weatherData.main.temp_min}.
+          </p>
+        </>
+      );
+    } else {
+      return <p>Loading...</p>;
+    }
   }
 
   render() {
     return (
       <>
-        <Bubble>
-          {this.state.dataReceived ? (
-            <>
-              <WeatherIcon
-                name="owm"
-                iconId={`${this.state.weatherData.weather[0].id}`}
-                flip="horizontal"
-                rotate="90"
-              />
-              <p>
-                It seems that the weather in {this.state.location} is going to
-                be {this.state.weatherData.weather[0].description} with a high
-                of {this.state.weatherData.main.temp_max} and a low of{" "}
-                {this.state.weatherData.main.temp_min}.
-              </p>
-            </>
-          ) : (
-            <p>Loading...</p>
-          )}
-        </Bubble>
+        <Bubble>{this.renderMessage()}</Bubble>
         <div className="character is-inline-block">
           <div className="character-component is-inline-block">
-            <Ghost size={200} mood="excited" color="#FDA7DC" />
+            <Ghost
+              size={200}
+              mood={this.state.hasError ? "sad" : "excited"}
+              color="#FDA7DC"
+            />
           </div>
           <div className="character-shadow" />
         </div>

@@ -20,4 +20,5 @@ export interface ForecastState {
     weather: Weather[];
   };
   dataReceived: boolean;
+  hasError: boolean;
 }
