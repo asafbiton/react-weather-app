@@ -1,7 +1,7 @@
 import React, { Component, Props } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
-import { changeUnit } from "../StateManagement/actions";
+import changeUnit from "../actions/Actions";
 import { withRouter } from "react-router-dom";
 
 interface NavbarState {

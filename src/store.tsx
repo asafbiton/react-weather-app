@@ -1,8 +1,12 @@
 import { createStore } from "redux";
-import { weatherAppReducer } from "./StateManagement/reducers";
+import reducers from "./reducers";
 
-export const store = createStore(
-  weatherAppReducer,
+const store = createStore(
+  reducers,
+  // @ts-ignore
+  { unit: "metric" },
   //@ts-ignore
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
+
+export default store;
