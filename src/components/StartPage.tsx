@@ -1,6 +1,6 @@
-import React, { Component, Props } from "react";
+import React, { Component } from "react";
 import { Ghost } from "react-kawaii";
-import Bubble from "./Bubble";
+import { Bubble } from "./";
 import WeatherAPIWrapper from "../Utils/WeatherAPIWrapper";
 import { Redirect, RouteComponentProps } from "react-router-dom";
 

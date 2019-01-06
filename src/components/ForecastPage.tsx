@@ -1,7 +1,7 @@
-import React, { Component, Props } from "react";
-import { Router, match, RouteProps, RouteComponentProps } from "react-router";
+import React, { Component } from "react";
+import { RouteComponentProps } from "react-router";
 import WeatherAPIWrapper from "../Utils/WeatherAPIWrapper";
-import Bubble from "./Bubble";
+import { Bubble } from "./";
 import { Ghost } from "react-kawaii";
 import { ForecastState } from "../Interfaces/APIResonseInterfaces";
 import WeatherIcon from "react-icons-weather";
