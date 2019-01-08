@@ -7,6 +7,7 @@ import { ForecastState } from "../Interfaces/APIResonseInterfaces";
 import WeatherIcon from "react-icons-weather";
 import { connect } from "react-redux";
 import { AxiosResponse } from "axios";
+import Helmet from "react-helmet";
 
 class ForecastPage extends Component<RouteComponentProps<any>, ForecastState> {
   api: WeatherAPIWrapper;
@@ -95,6 +96,9 @@ class ForecastPage extends Component<RouteComponentProps<any>, ForecastState> {
   render() {
     return (
       <>
+        <Helmet>
+          <title>Weather for {this.state.location}</title>
+        </Helmet>
         <Bubble>{this.renderMessage()}</Bubble>
         <div className="character is-inline-block">
           <div className="character-component is-inline-block">

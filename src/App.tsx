@@ -10,9 +10,21 @@ import { Navbar } from "./components";
 import { About } from "./components";
 import { Provider } from "react-redux";
 import store from "./store";
+import { Helmet } from "react-helmet";
 
 const App = () => (
   <Provider store={store}>
+    <Helmet>
+      <script
+        src={`https://maps.googleapis.com/maps/api/js?key=${
+          process.env.REACT_APP_GOOGLE_GEOCODE_API
+        }&libraries=places`}
+      />
+      <script
+        defer
+        src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+      />
+    </Helmet>
     <Router>
       <>
         <Navbar />

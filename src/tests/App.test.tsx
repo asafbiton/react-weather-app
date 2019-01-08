@@ -3,13 +3,14 @@ import ReactDOM from "react-dom";
 import App from "../App";
 import { shallow } from "enzyme";
 import { Bubble } from "../components";
+import googleMock from "./__mocks__/google-maps";
 
 it("renders without crashing", () => {
-  document.head.innerHTML = `<script src="https://maps.googleapis.com/maps/api/js?key=${
-    process.env.REACT_APP_GOOGLE_GEOCODE_API
-  }&libraries=places"></script>`;
-  document.body.innerHTML = `<div id="root"></div>`;
-  const div = document.getElementById("root");
+  // Google Maps Places API Mock
+  // @ts-ignore
+  window.google = googleMock;
+
+  const div = document.createElement("div");
   ReactDOM.render(<App />, div);
   ReactDOM.unmountComponentAtNode(div);
 });

@@ -44,9 +44,7 @@ export default class StartPage extends Component<
     if (this.autocomplete != null) {
       // @ts-ignore
       const selectedPlace = this.autocomplete.getPlace();
-      this.setState((state, props) => {
-        return { value: selectedPlace.formatted_address, redirect: true };
-      });
+      this.setState({ value: selectedPlace.formatted_address, redirect: true });
     }
   }
 
